@@ -127,6 +127,42 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name'
 };
 
+exports.Prisma.ProfileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  about: 'about',
+  avatarImage: 'avatarImage',
+  socialMediaURL: 'socialMediaURL',
+  backgroundImage: 'backgroundImage',
+  successMessage: 'successMessage',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DonationScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  specialMessage: 'specialMessage',
+  socialURLorBuyMeACoffee: 'socialURLorBuyMeACoffee',
+  donorId: 'donorId',
+  recipientId: 'recipientId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BankCardScalarFieldEnum = {
+  id: 'id',
+  country: 'country',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  cardName: 'cardName',
+  expiryDate: 'expiryDate',
+  userId: 'userId',
+  createAt: 'createAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -139,7 +175,10 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Profile: 'Profile',
+  Donation: 'Donation',
+  BankCard: 'BankCard'
 };
 
 /**

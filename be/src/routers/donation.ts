@@ -1,13 +1,13 @@
 import { Router } from "express";
 import {
   createDonation,
-  findDonation,
-  uptadeDonationById,
+  findDonations,
+  updateDonationById,
   deleteDonationById,
-} from "../controller/user";
-export const profileRouter = Router();
-profileRouter
+} from "../controller/donation";
+export const donationRouter = Router();
+donationRouter
   .post("/", createDonation as any)
-  .get("/", findDonation as any)
-  .put("/:id", uptadeDonationById as any)
+  .get("/", findDonations as any)
+  .put("/:id", updateDonationById as any)
   .delete("/:id", deleteDonationById as any);

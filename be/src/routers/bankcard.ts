@@ -1,13 +1,13 @@
 import { Router } from "express";
 import {
-  createBankcard,
-  findBankcard,
-  uptadeBankcardById,
-  deleteBankcardById,
-} from "../controller/user";
-export const profileRouter = Router();
-profileRouter
-  .post("/", createBankcard as any)
-  .get("/", findBankcard as any)
-  .put("/:id", uptadeBankcardById as any)
-  .delete("/:id", deleteBankcardById as any);
+  createBankCard,
+  findBankCards,
+  updateBankCardById,
+  deleteBankCardById,
+} from "../controller/bankcard";
+export const bankcardRouter = Router();
+bankcardRouter
+  .post("/", createBankCard as any)
+  .get("/", findBankCards as any)
+  .put("/:id", updateBankCardById as any)
+  .delete("/:id", deleteBankCardById as any);
