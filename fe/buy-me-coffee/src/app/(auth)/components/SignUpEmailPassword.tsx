@@ -3,7 +3,7 @@ import React from "react";
 import { LoginButton } from "./LoginButton";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { CircleCheck, CircleX } from "lucide-react";
+import { CircleX } from "lucide-react";
 
 export const SignUpEmailPassword = () => {
   const searchParams = useSearchParams();
@@ -13,18 +13,40 @@ export const SignUpEmailPassword = () => {
   const [password, setPassword] = useState("");
 
   const [availabilityEmail, setAvailabilityEmail] = useState<
-      null | "valid" | "unvalid"
+      null | "unvalid"
     >(null);
     const [availabilityPassword, setAvailabilityPassword] = useState<
-    null | "correct" | "uncorrect"
+    null  | "uncorrect"
   >(null);
   const [Checked, setChecked] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setEmail(value);
-      setPassword(value);
-
+      setPassword(value);}
+  
+      if (Checked && value.trim() !== "") {
+        if () {
+          setAvailabilityEmail("unvalid");
+        } else {
+          setAvailabilityEmail(null);
+        }
+    };
+  
+    const handleContinue = () => {
+      setChecked(true);
+      if (email.trim() === "") {
+        setAvailabilityEmail(null);
+        return;
+      }}
+      const handleContinue = () => {
+        setChecked(true);
+        if (password.trim() === "") {
+          setAvailabilityPassword(null);
+          return;
+        }}
+  
+    
   return (
     <div className="w-full h-screen relative">
       <div className="absolute top-[32px] right-[80px]">
@@ -45,19 +67,12 @@ export const SignUpEmailPassword = () => {
               placeholder="Enter email here"
               className="w-full px-4 py-2 border-2 text-[14px] font-[400] rounded-[6px] text-gray-800 placeholder:text-gray-400 focus:border-[#18181B] focus:outline-none transition-colors duration-200"
             />{" "}
-            {availabilityEmail === "valid" && Checked && (
-              <div className="flex items-center gap-[4px]">
-                <CircleCheck className="text-green-600 size-[12px] stroke-[1.5px]" />
-                <p className="text-green-600 text-[12px] font-[400]">
-                  Username available
-                </p>
-              </div>
-            )}
+           
             {availabilityEmail === "unvalid" && Checked && (
               <div className="flex items-center gap-[4px]">
                 <CircleX className="text-red-600 size-[12px] stroke-[1.5px]" />
                 <p className="text-red-600 text-[12px] font-[400]">
-                  The username is already taken
+                  Please enter a valid email
                 </p>
               </div>
             )}
@@ -67,14 +82,7 @@ export const SignUpEmailPassword = () => {
               placeholder="Enter password here"
               className="w-full px-4 py-2 border-2 text-[14px] font-[400] rounded-[6px] text-gray-800 placeholder:text-gray-400 focus:border-[#18181B] focus:outline-none transition-colors duration-200"
             />
-            {availabilityPassword === "correct" && Checked && (
-              <div className="flex items-center gap-[4px]">
-                <CircleCheck className="text-green-600 size-[12px] stroke-[1.5px]" />
-                <p className="text-green-600 text-[12px] font-[400]">
-                  Username available
-                </p>
-              </div>
-            )}
+           
             {availabilityPassword === "uncorrect" && Checked && (
               <div className="flex items-center gap-[4px]">
                 <CircleX className="text-red-600 size-[12px] stroke-[1.5px]" />
@@ -84,11 +92,14 @@ export const SignUpEmailPassword = () => {
               </div>
             )}
           </div>
-          <button className="w-full rounded-[6px] text-[14px] text-[#FAFAFA] bg-[#18181B] py-[9px] active:bg-[#d1d1d1]">
+          <button
+            onClick={handleContinue}
+            className="w-full rounded-[6px] text-[14px] text-[#FAFAFA] bg-[#18181B] py-[9px] active:bg-[#d1d1d1]"
+          >
             Continue
           </button>
         </div>
       </div>
     </div>
   );
-};
+}; 
