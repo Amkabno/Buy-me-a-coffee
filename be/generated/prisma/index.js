@@ -192,17 +192,18 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiNjc5ODhlYmQtM2U5My00Yzc0LWE3ZDUtZWI3MTIzOWJhOTYxIiwidGVuYW50X2lkIjoiMzVkMDFjYjNmNzhlYWRlMDU5NjM1N2NlYzFjMTU1MWExYzFiZDc5Nzk1ZTQzNWY5NTU3ZmI4ZTBhMTJjMDM3OSIsImludGVybmFsX3NlY3JldCI6IjY2NDU2ZTkyLWE3N2UtNGE2Mi05NjNlLTIwNjkwYWJjYTE3ZSJ9.vhTxatCAJ4VF0bJs55HfBdNIpFCyDYHxBXcjL5UGARc"
+        "value": null
       }
     }
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  email    String @unique\n  password String\n  name     String @unique\n\n  profiles          Profile[]\n  bankCards         BankCard[]\n  donationsMade     Donation[] @relation(\"DonationsMade\")\n  donationsReceived Donation[] @relation(\"DonationsReceived\")\n}\n\nmodel Profile {\n  id              Int      @id @default(autoincrement())\n  name            String\n  about           String\n  avatarImage     String\n  socialMediaURL  String\n  backgroundImage String\n  successMessage  String\n  userId          Int\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n}\n\nmodel Donation {\n  id                      Int      @id @default(autoincrement())\n  amount                  Int\n  specialMessage          String\n  socialURLorBuyMeACoffee String\n  donorId                 Int\n  recipientId             Int\n  createdAt               DateTime @default(now())\n  updatedAt               DateTime @updatedAt\n\n  donor     User @relation(\"DonationsMade\", fields: [donorId], references: [id])\n  recipient User @relation(\"DonationsReceived\", fields: [recipientId], references: [id])\n}\n\nmodel BankCard {\n  id         Int      @id @default(autoincrement())\n  country    String\n  firstName  String\n  lastName   String\n  cardName   String\n  expiryDate DateTime\n  userId     Int\n  createAt   DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  user User @relation(fields: [userId], references: [id])\n}\n",
   "inlineSchemaHash": "d550dc27de2fb781484e26205a1defaa97bb0dc70e2a4e35ed8cc97f4a346fa8",
-  "copyEngine": false
+  "copyEngine": true
 }
 
 const fs = require('fs')
@@ -239,3 +240,9 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "generated/prisma/libquery_engine-darwin-arm64.dylib.node")
+// file annotations for bundling tools to include these files
+path.join(__dirname, "schema.prisma");
+path.join(process.cwd(), "generated/prisma/schema.prisma")

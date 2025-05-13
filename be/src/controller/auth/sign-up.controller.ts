@@ -11,30 +11,36 @@ export const checkUser = async (req: Request, res: Response) => {
     });
 
     if (user) {
-      return res.send({ message: "username already taken" });
+      return res.send({ message: "Username already taken" });
     }
-    return res.send({ message: "username available" });
-  } catch (error) {}
+    return res.send({ message: "Username available" });
+  } catch (error) {
+    console.error(error);
+    return res.send({ message: "Internal server error" });
+  }
 };
 
 export const signup = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
 
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
   try {
-    const response = await prisma.user.create({
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
+    const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name: username,
       },
     });
+
     return res.send({
       success: true,
-      message: response,
+      message: "User created successfully",
+      user,
     });
   } catch (error) {
-    return res.send(error);
+    console.error(error);
+    return res.send({ message: "Internal server error", error });
   }
 };

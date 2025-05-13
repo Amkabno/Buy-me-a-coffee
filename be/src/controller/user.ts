@@ -52,17 +52,18 @@ export const uptadeUserById = async (req: Request, res: Response) => {
 
 export const deleteUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { email, password, name } = req.body;
   try {
-    const response = await prisma.user.update({
+    const response = await prisma.user.delete({
       where: { id: Number(id) },
-      data: { email, password, name },
     });
     return res.send({
       success: true,
       message: response,
     });
   } catch (error) {
-    return res.send(error);
+    return res.status(500).send({
+      success: false,
+      error: error,
+    });
   }
 };

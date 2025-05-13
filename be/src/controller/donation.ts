@@ -6,8 +6,8 @@ export const createDonation = async (req: Request, res: Response) => {
     amount,
     specialMessage,
     socialURLorBuyMeACoffee,
-    donorld,
-    recipientld,
+    donorId,
+    recipientId,
   } = req.body;
 
   try {
@@ -16,8 +16,8 @@ export const createDonation = async (req: Request, res: Response) => {
         amount,
         specialMessage,
         socialURLorBuyMeACoffee,
-        donorld,
-        recipientld,
+        donorId,
+        recipientId,
       },
     });
     return res.send({
@@ -46,8 +46,8 @@ export const updateDonationById = async (req: Request, res: Response) => {
     amount,
     specialMessage,
     socialURLorBuyMeACoffee,
-    donorld,
-    recipientld,
+    donorId,
+    recipientId,
   } = req.body;
 
   try {
@@ -57,8 +57,8 @@ export const updateDonationById = async (req: Request, res: Response) => {
         amount,
         specialMessage,
         socialURLorBuyMeACoffee,
-        donorld,
-        recipientld,
+        donorId,
+        recipientId,
       },
     });
 

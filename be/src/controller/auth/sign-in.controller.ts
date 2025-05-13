@@ -12,18 +12,28 @@ export const signin = async (req: Request, res: Response) => {
       where: { email },
     });
 
-    if (!user) return res.send({ message: "user not found" });
+    if (!user) return res.send({ message: "User not found" });
 
     const isMatch = compareSync(password, user.password);
-    if (!isMatch) return res.send({ message: "Email or password wrong" });
 
-    const token = jwt.sign(user, secret_key as any, { expiresIn: 3600 });
+    if (!isMatch) return res.send({ message: "Email or password is wrong" });
 
-    return res.cookie("token", token, {
-      maxAge: 60 * 1000 * 10,
-      secure: false, //http
-    });
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      secret_key as string,
+      { expiresIn: "1h" }
+    );
+
+    return res
+      .cookie("token", token, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 1000,
+        secure: false,
+      })
+
+      .send({ message: "Signin successful" });
   } catch (error) {
-    return res.send(error);
+    console.error(error);
+    return res.send({ message: "Internal server error", error });
   }
 };

@@ -4,13 +4,13 @@ import { prisma } from "../utils/prisma";
 export const createProfile = async (req: Request, res: Response) => {
   const {
     userId,
+    name,
     about,
     avatarImage,
     socialMediaURL,
     backgroundImage,
     successMessage,
   } = req.body;
-
   try {
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
     if (!userExists) {
@@ -21,12 +21,15 @@ export const createProfile = async (req: Request, res: Response) => {
 
     const profile = await prisma.profile.create({
       data: {
+        name,
         about,
         avatarImage,
         socialMediaURL,
         backgroundImage,
         successMessage,
-        userId,
+        user: {
+          connect: { id: userId },
+        },
       },
     });
 
