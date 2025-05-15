@@ -3,17 +3,35 @@ import React, { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { CircleCheck, CircleX } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+type takenUsernames = {
+  name: String;
+};
 
-export const SignUpUsername = () => {
+const formSchema = z.object({
+  username: z
+    .string({ required_error: "Enter username" })
+    .min(4, { message: "Please enter at least 4 letters" }),
+});
+
+export const SignUpUsername = ({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) => {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [error, setError] = useState<string>();
+  const handleSubmitUsername = () => {
+    setError(undefined);
+    console.log(username);
+    setStep(1);
+  };
   const [availability, setAvailability] = useState<
     null | "available" | "taken"
   >(null);
   const [Checked, setChecked] = useState(false);
-
-  const takenUsernames = ["zoloo", "bataa", "amaraa"];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
