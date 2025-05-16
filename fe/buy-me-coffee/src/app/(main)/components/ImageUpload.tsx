@@ -2,15 +2,24 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Camera } from "lucide-react";
 
-export const ImageUpload: React.FC = () => {
+const DEFAULT_IMAGE_URL = "defaultImage.jpg";
+
+interface ImageUploadProps {
+  forceDefault?: boolean;
+}
+
+export const ImageUpload: React.FC<ImageUploadProps> = ({ forceDefault }) => {
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
-  const [preview, setPreview] = useState<string | undefined>();
+  const [preview, setPreview] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
+    if (forceDefault && !selectedFile) {
+      setPreview(DEFAULT_IMAGE_URL);
     }
+  }, [forceDefault, selectedFile]);
+
+  useEffect(() => {
+    if (!selectedFile) return;
 
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
