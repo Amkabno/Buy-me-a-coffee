@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
+import bcrypt from "bcrypt";
+
+const SALT_ROUNDS = 10;
 
 export const createUser = async (req: Request, res: Response) => {
   const { username, password, email } = req.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
     const response = await prisma.user.create({
       data: {
         email,
-        password,
+        password: hashedPassword,
         name: username,
       },
     });
@@ -23,7 +28,13 @@ export const createUser = async (req: Request, res: Response) => {
 
 export const findUsers = async (_: Request, res: Response) => {
   try {
-    const response = await prisma.user.findMany({});
+    const response = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
     return res.send({
       success: true,
       message: response,
@@ -37,6 +48,12 @@ export const uptadeUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { email, password, name } = req.body;
   try {
+    let data: any = { email, name };
+
+    if (password) {
+      data.password = await bcrypt.hash(password, SALT_ROUNDS);
+    }
+
     const response = await prisma.user.update({
       where: { id: Number(id) },
       data: { email, password, name },

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../utils/prisma";
 
 export const createBankCard = async (req: Request, res: Response) => {
-  const { country, firstName, lastName, cardName, expiryDate, userId } =
+  const { country, firstName, lastName, cardNumber, expiryDate, userId } =
     req.body;
 
   try {
@@ -11,7 +11,7 @@ export const createBankCard = async (req: Request, res: Response) => {
         country,
         firstName,
         lastName,
-        cardName,
+        cardNumber,
         expiryDate: new Date(expiryDate),
         userId,
       },
@@ -40,7 +40,7 @@ export const findBankCards = async (_: Request, res: Response) => {
 
 export const updateBankCardById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { country, firstName, lastName, cardName, expiryDate, userId } =
+  const { country, firstName, lastName, cardNumber, expiryDate, userId } =
     req.body;
 
   try {
@@ -50,7 +50,7 @@ export const updateBankCardById = async (req: Request, res: Response) => {
         country,
         firstName,
         lastName,
-        cardName,
+        cardNumber,
         expiryDate: new Date(expiryDate),
         userId,
       },
