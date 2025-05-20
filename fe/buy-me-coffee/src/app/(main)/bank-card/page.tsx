@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getData } from "country-list";
+import { useRouter } from "next/navigation";
 
 interface Country {
   code: string;
@@ -51,6 +52,12 @@ function ResetPassPage() {
   const onSubmit = (data: FormData) => {
     console.log(data);
     alert("Form submitted successfully!");
+  };
+
+  const router = useRouter();
+
+  const handleContinue = () => {
+    router.push("/loading");
   };
 
   return (
@@ -248,6 +255,7 @@ function ResetPassPage() {
 
       <div className="flex justify-end">
         <button
+          onClick={handleContinue}
           type="submit"
           className="rounded-[6px] py-[8px] text-[14px] font-[500] text-white bg-[#18181B] w-[220px] px-[16px]"
         >
